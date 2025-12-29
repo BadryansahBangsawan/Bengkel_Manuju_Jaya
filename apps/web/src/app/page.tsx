@@ -3,7 +3,6 @@
 import Hero from "@/components/sections/hero";
 import About from "@/components/sections/about";
 import Services from "@/components/sections/services";
-import Shop from "@/components/sections/shop";
 import Gallery from "@/components/sections/gallery";
 import Workflow from "@/components/sections/workflow";
 import Advantages from "@/components/sections/advantages";
@@ -40,7 +39,6 @@ export default function Home() {
       <Hero />
       <About />
       <Services />
-      <Shop />
       <Gallery />
       <Workflow />
       <Advantages />

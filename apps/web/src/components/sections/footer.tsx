@@ -1,8 +1,8 @@
 export default function Footer() {
   return (
-    <footer className="border-t py-20">
+    <footer className="border-t py-10 md:py-20">
       <div className="container mx-auto px-4 text-center">
-        <p className="text-muted-foreground text-sm">
+        <p className="text-muted-foreground text-sm md:text-base">
           © {new Date().getFullYear()} Bengkel Mobil Manuju Jaya. Semua
           Masalah Mobil, Satu Tempat.
         </p>
