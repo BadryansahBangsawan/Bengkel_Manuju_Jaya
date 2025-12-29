@@ -26,7 +26,9 @@ export default function Contact() {
               <CardTitle>Alamat</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">[Isi alamat lengkap]</p>
+              <p className="text-muted-foreground text-sm md:text-base">
+                Jl. Mariadei No.55, Serui Kota, Kec. Yapen Sel., Kabupaten Kepulauan Yapen, Papua 98215
+              </p>
             </CardContent>
           </Card>
           <Card className="transition-all duration-300 hover:scale-105 hover:shadow-md bg-gradient-to-br from-card to-muted/10">
@@ -43,12 +45,12 @@ export default function Contact() {
             </CardHeader>
             <CardContent>
               <a
-                href="https://wa.me/6281234567890"
+                href="https://wa.me/6282199055555"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background px-6 py-3 text-sm md:text-base font-medium hover:bg-muted hover:text-foreground min-h-[3rem] transition-all"
               >
-                +62 812-3456-7890
+                +62 821-9905-5555
               </a>
             </CardContent>
           </Card>
@@ -58,10 +60,10 @@ export default function Contact() {
             </CardHeader>
             <CardContent>
               <a
-                href="tel:+6281234567890"
+                href="tel:+6282199055555"
                 className="flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background px-6 py-3 text-sm md:text-base font-medium hover:bg-muted hover:text-foreground min-h-[3rem] transition-all"
               >
-                +62 812-3456-7890
+                +62 821-9905-5555
               </a>
             </CardContent>
           </Card>

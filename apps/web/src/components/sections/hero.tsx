@@ -22,9 +22,9 @@ export default function Hero() {
             <h3 className="font-semibold text-sm md:text-base">Kopling & Transmisi</h3>
           </div>
         </div>
-        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <div className="flex flex-wrap gap-4 justify-center">
           <a
-            href="https://wa.me/6281234567890?text=Halo%20Bengkel%20Manuju%20Jaya.%0AMobil%3A%20%0ATahun%3A%20%0AKeluhan%3A%20%0ALokasi%3A%20"
+            href="https://wa.me/6282199055555?text=Halo%20Bengkel%20Manuju%20Jaya.%0AMobil%3A%20%0ATahun%3A%20%0AKeluhan%3A%20%0ALokasi%3A%20"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-transparent bg-primary px-6 py-4 text-base font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-primary/80 min-h-[3rem]"
@@ -32,13 +32,13 @@ export default function Hero() {
             WhatsApp Sekarang
           </a>
           <a
-            href="tel:+6281234567890"
+            href="tel:+6282199055555"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background px-6 py-4 text-base font-medium hover:bg-muted hover:text-foreground min-h-[3rem] transition-all duration-300 hover:scale-105 hover:shadow-md"
           >
             Telepon Bengkel
           </a>
           <a
-            href="https://maps.google.com"
+            href="https://maps.app.goo.gl/doGQBBFm7rWL8sbR8"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg border border-border bg-background px-6 py-4 text-base font-medium hover:bg-muted hover:text-foreground min-h-[3rem] transition-all duration-300 hover:scale-105 hover:shadow-md"
