@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased bg-[#F8FAFC]`}>
         <Providers>
           <div className="grid grid-rows-[auto_1fr] h-svh">
