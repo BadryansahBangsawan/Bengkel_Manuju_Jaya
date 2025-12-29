@@ -22,7 +22,10 @@ export default function Shop() {
         </p>
         <div className="mb-12 grid gap-[1.25rem] md:grid-cols-2 lg:grid-cols-4">
           {products.map((product) => (
-            <Card key={product} className="transition-all duration-300 hover:scale-105 hover:shadow-md">
+            <Card
+              key={product}
+              className="transition-all duration-300 hover:scale-105 hover:shadow-md"
+            >
               <div className="flex items-center justify-center py-[1.5625rem] px-5">
                 <p className="font-medium text-center">{product}</p>
               </div>
@@ -32,7 +35,7 @@ export default function Shop() {
         <Card className="max-w-2xl mx-auto bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
           <div className="py-[1.5625rem] px-5 text-center">
             <p className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-              Beli part → langsung pasang → garansi kerja
+              Beli part → langsung pasang → garansi kerjassss
             </p>
           </div>
         </Card>
