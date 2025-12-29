@@ -2,8 +2,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
-
 :root {
   --background: #F8FAFC;
   --foreground: #1E293B;
@@ -36,40 +34,6 @@
   --sidebar-accent: #F1F5F9;
   --sidebar-accent-foreground: #1E293B;
   --sidebar-border: #E2E8F0;
-  --sidebar-ring: #82C8E5;
-}
-
-.dark {
-  --background: #0F172A;
-  --foreground: #F8FAFC;
-  --card: #1E293B;
-  --card-foreground: #F8FAFC;
-  --popover: #1E293B;
-  --popover-foreground: #F8FAFC;
-  --primary: #82C8E5;
-  --primary-foreground: #0F172A;
-  --secondary: #475569;
-  --secondary-foreground: #F8FAFC;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #475569;
-  --accent-foreground: #F8FAFC;
-  --destructive: #EF4444;
-  --border: #334155;
-  --input: #334155;
-  --ring: #82C8E5;
-  --chart-1: #82C8E5;
-  --chart-2: #475569;
-  --chart-3: #64748B;
-  --chart-4: #94A3B8;
-  --chart-5: #CBD5E1;
-  --sidebar: #1E293B;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #82C8E5;
-  --sidebar-primary-foreground: #0F172A;
-  --sidebar-accent: #334155;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #334155;
   --sidebar-ring: #82C8E5;
 }
 
