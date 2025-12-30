@@ -4,6 +4,6 @@ import mysql from "mysql2/promise";
 
 import * as schema from "./schema";
 
-const pool = mysql.createPool(env.DATABASE_URL);
+const pool = mysql.createPool(env.DATABASE_URL || "mysql://localhost/dummy");
 
 export const db = drizzle(pool, { schema, mode: "default" });
