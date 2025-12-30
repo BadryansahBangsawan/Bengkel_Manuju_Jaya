@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { LayoutDashboard, Users, Image, Calendar, MessageSquare, Wrench, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, Users as UserIcon, Calendar, MessageSquare, Wrench, LogOut } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -8,7 +8,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/admin/appointments", icon: Calendar, label: "Janji Temu" },
     { href: "/admin/services", icon: Wrench, label: "Layanan" },
-    { href: "/admin/gallery", icon: Image, label: "Galeri" },
+    { href: "/admin/employees", icon: UserIcon, label: "Karyawan" },
     { href: "/admin/messages", icon: MessageSquare, label: "Pesan" },
     { href: "/admin/users", icon: Users, label: "Pengguna" },
   ];

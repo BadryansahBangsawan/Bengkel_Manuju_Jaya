@@ -1,29 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, CheckCircle, Clock, MessageSquare, Wrench, Image, Users } from "lucide-react";
+import { Calendar, CheckCircle, Clock, MessageSquare, Wrench, Users as UserIcon, Users } from "lucide-react";
 import { db } from "@my-better-t-app/db";
-import { services, gallery, appointments, contactMessages, users } from "@my-better-t-app/db/schema";
+import { services, employees, appointments, contactMessages, users } from "@my-better-t-app/db/schema";
 import { sql } from "drizzle-orm";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
-  const [servicesCount, galleryCount, appointmentsCount, messagesCount, usersCount] = await Promise.all([
+  const [servicesCount, employeesCount, appointmentsCount, messagesCount, usersCount] = await Promise.all([
     db.select({ count: sql<number>`count(*)` }).from(services),
-    db.select({ count: sql<number>`count(*)` }).from(gallery),
+    db.select({ count: sql<number>`count(*)` }).from(employees),
     db.select({ count: sql<number>`count(*)` }).from(appointments),
     db.select({ count: sql<number>`count(*)` }).from(contactMessages),
     db.select({ count: sql<number>`count(*)` }).from(users),
   ]);
 
-  const recentAppointments = await db
-    .select()
-    .from(appointments)
-    .orderBy(sql`created_at DESC`)
-    .limit(5);
-
-  const recentMessages = await db
-    .select()
-    .from(contactMessages)
-    .orderBy(sql`created_at DESC`)
-    .limit(5);
+  const [recentAppointments, recentMessages] = await Promise.all([
+    db.select().from(appointments).orderBy(sql`appointments.date DESC`).limit(5),
+    db.select().from(contactMessages).orderBy(sql`contact_messages.created_at DESC`).limit(5),
+  ]);
 
   const stats = [
     {
@@ -41,9 +36,9 @@ export default async function AdminDashboard() {
       bgColor: "bg-green-500/10",
     },
     {
-      title: "Galeri",
-      value: galleryCount[0]?.count?.toString() || "0",
-      icon: Image,
+      title: "Karyawan",
+      value: employeesCount[0]?.count?.toString() || "0",
+      icon: UserIcon,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
     },

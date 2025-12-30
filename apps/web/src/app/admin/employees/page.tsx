@@ -5,11 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Pencil, Trash2, Loader2, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, Loader2, Upload, User } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-export default function GalleryAdmin() {
+export default function EmployeesAdmin() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -21,11 +21,11 @@ export default function GalleryAdmin() {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("/api/gallery");
+      const response = await fetch("/api/employees");
       const data = await response.json();
       setItems(data);
     } catch (error) {
-      toast.error("Gagal memuat galeri");
+      toast.error("Gagal memuat karyawan");
     } finally {
       setLoading(false);
     }
@@ -36,7 +36,7 @@ export default function GalleryAdmin() {
   }, []);
 
   const handleAdd = () => {
-    setEditingItem({ id: null, title: "", description: "", image: "", active: true, order: 0 });
+    setEditingItem({ id: null, name: "", position: "", photo: "", email: "", phone: "", bio: "", active: true, order: 0 });
     setImagePreview("");
     setFile(null);
     setIsEditing(true);
@@ -44,24 +44,24 @@ export default function GalleryAdmin() {
 
   const handleEdit = (item: any) => {
     setEditingItem(item);
-    setImagePreview(item.image);
+    setImagePreview(item.photo);
     setFile(null);
     setIsEditing(true);
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("Yakin ingin menghapus item galeri ini?")) return;
+    if (!confirm("Yakin ingin menghapus karyawan ini?")) return;
     
     try {
-      const response = await fetch(`/api/gallery/${id}`, { method: "DELETE" });
+      const response = await fetch(`/api/employees/${id}`, { method: "DELETE" });
       if (response.ok) {
-        toast.success("Galeri berhasil dihapus");
+        toast.success("Karyawan berhasil dihapus");
         fetchItems();
       } else {
-        toast.error("Gagal menghapus galeri");
+        toast.error("Gagal menghapus karyawan");
       }
     } catch (error) {
-      toast.error("Gagal menghapus galeri");
+      toast.error("Gagal menghapus karyawan");
     }
   };
 
@@ -75,7 +75,7 @@ export default function GalleryAdmin() {
 
   const handleUpload = async () => {
     if (!file) {
-      toast.error("Pilih file gambar terlebih dahulu");
+      toast.error("Pilih file foto terlebih dahulu");
       return null;
     }
 
@@ -92,14 +92,14 @@ export default function GalleryAdmin() {
       const data = await response.json();
       
       if (response.ok) {
-        toast.success("Gambar berhasil diupload");
+        toast.success("Foto berhasil diupload");
         return data.url;
       } else {
-        toast.error("Gagal mengupload gambar");
+        toast.error("Gagal mengupload foto");
         return null;
       }
     } catch (error) {
-      toast.error("Gagal mengupload gambar");
+      toast.error("Gagal mengupload foto");
       return null;
     } finally {
       setUploading(false);
@@ -109,30 +109,33 @@ export default function GalleryAdmin() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    let imageUrl = editingItem.image;
+    let imageUrl = editingItem.photo;
     
     if (file) {
       const uploadedUrl = await handleUpload();
       if (!uploadedUrl) return;
       imageUrl = uploadedUrl;
-    } else if (!editingItem.image && !file) {
-      toast.error("Upload gambar terlebih dahulu");
+    } else if (!editingItem.photo && !file) {
+      toast.error("Upload foto terlebih dahulu");
       return;
     }
 
     setSaving(true);
     
     try {
-      const url = editingItem.id ? `/api/gallery/${editingItem.id}` : "/api/gallery";
+      const url = editingItem.id ? `/api/employees/${editingItem.id}` : "/api/employees";
       const method = editingItem.id ? "PUT" : "POST";
       
       const payload = editingItem.id ? {
-        title: editingItem.title,
-        description: editingItem.description,
-        image: imageUrl,
+        name: editingItem.name,
+        position: editingItem.position,
+        photo: imageUrl,
+        email: editingItem.email,
+        phone: editingItem.phone,
+        bio: editingItem.bio,
         active: editingItem.active,
         order: editingItem.order,
-      } : { ...editingItem, image: imageUrl };
+      } : { ...editingItem, photo: imageUrl };
       
       const response = await fetch(url, {
         method,
@@ -141,17 +144,17 @@ export default function GalleryAdmin() {
       });
 
       if (response.ok) {
-        toast.success(`Galeri berhasil ${editingItem.id ? "diperbarui" : "ditambahkan"}`);
+        toast.success(`Karyawan berhasil ${editingItem.id ? "diperbarui" : "ditambahkan"}`);
         setIsEditing(false);
         setEditingItem(null);
         setFile(null);
         setImagePreview("");
         fetchItems();
       } else {
-        toast.error("Gagal menyimpan galeri");
+        toast.error("Gagal menyimpan karyawan");
       }
     } catch (error) {
-      toast.error("Gagal menyimpan galeri");
+      toast.error("Gagal menyimpan karyawan");
     } finally {
       setSaving(false);
     }
@@ -168,32 +171,61 @@ export default function GalleryAdmin() {
   if (isEditing) {
     return (
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold">{editingItem.id ? "Edit Galeri" : "Tambah Galeri"}</h1>
+        <h1 className="text-3xl font-bold">{editingItem.id ? "Edit Karyawan" : "Tambah Karyawan"}</h1>
         <Card>
           <CardContent className="pt-6">
             <form onSubmit={handleSave} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="title">Judul</Label>
+                <Label htmlFor="name">Nama</Label>
                 <Input
-                  id="title"
-                  value={editingItem.title}
-                  onChange={(e) => setEditingItem({ ...editingItem, title: e.target.value })}
+                  id="name"
+                  value={editingItem.name}
+                  onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="description">Deskripsi</Label>
+                <Label htmlFor="position">Jabatan</Label>
                 <Input
-                  id="description"
-                  value={editingItem.description}
-                  onChange={(e) => setEditingItem({ ...editingItem, description: e.target.value })}
+                  id="position"
+                  value={editingItem.position}
+                  onChange={(e) => setEditingItem({ ...editingItem, position: e.target.value })}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image">Gambar</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="image"
+                  id="email"
+                  type="email"
+                  value={editingItem.email}
+                  onChange={(e) => setEditingItem({ ...editingItem, email: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Telepon</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={editingItem.phone}
+                  onChange={(e) => setEditingItem({ ...editingItem, phone: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="bio">Bio</Label>
+                <textarea
+                  id="bio"
+                  value={editingItem.bio}
+                  onChange={(e) => setEditingItem({ ...editingItem, bio: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border rounded-md bg-background"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="photo">Foto</Label>
+                <Input
+                  id="photo"
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
@@ -253,10 +285,10 @@ export default function GalleryAdmin() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Galeri</h1>
+        <h1 className="text-3xl font-bold">Karyawan</h1>
         <Button onClick={handleAdd}>
           <Plus className="h-4 w-4 mr-2" />
-          Tambah Galeri
+          Tambah Karyawan
         </Button>
       </div>
 
@@ -264,19 +296,28 @@ export default function GalleryAdmin() {
         {items.map((item: any) => (
           <Card key={item.id}>
             <div className="relative aspect-square w-full">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
-              />
+              {item.photo ? (
+                <Image
+                  src={item.photo}
+                  alt={item.name}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full bg-muted">
+                  <User className="h-24 w-24 text-muted-foreground/50" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex flex-col justify-end p-5">
+                <h3 className="font-semibold mb-1 text-lg text-white">{item.name}</h3>
+                <p className="text-sm text-white/90">{item.position}</p>
+              </div>
             </div>
             <CardContent className="pt-4">
               <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-semibold">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
+                <div className="flex-1">
+                  <p className="text-sm text-muted-foreground line-clamp-2">{item.bio}</p>
                 </div>
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline" onClick={() => handleEdit(item)}>

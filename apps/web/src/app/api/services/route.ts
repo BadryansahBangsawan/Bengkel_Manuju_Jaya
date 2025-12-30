@@ -3,6 +3,8 @@ import { db } from "@my-better-t-app/db";
 import { services } from "@my-better-t-app/db/schema";
 import { eq } from "drizzle-orm";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const allServices = await db.select().from(services);

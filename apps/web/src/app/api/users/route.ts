@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@my-better-t-app/db";
 import { users } from "@my-better-t-app/db/schema";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const allUsers = await db.select().from(users);

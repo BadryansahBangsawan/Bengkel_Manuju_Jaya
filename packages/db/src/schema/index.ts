@@ -33,6 +33,20 @@ export const gallery = mysqlTable("gallery", {
   updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`).notNull(),
 });
 
+export const employees = mysqlTable("employees", {
+  id: int("id").primaryKey().autoincrement(),
+  name: varchar("name", { length: 255 }).notNull(),
+  position: varchar("position", { length: 255 }).notNull(),
+  photo: varchar("photo", { length: 500 }).notNull(),
+  email: varchar("email", { length: 255 }),
+  phone: varchar("phone", { length: 50 }),
+  bio: text("bio").notNull(),
+  active: boolean("active").notNull().default(true),
+  order: int("order").notNull().default(0),
+  createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`).notNull(),
+  updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`).notNull(),
+});
+
 export const appointments = mysqlTable("appointments", {
   id: int("id").primaryKey().autoincrement(),
   name: varchar("name", { length: 255 }).notNull(),
@@ -40,6 +54,7 @@ export const appointments = mysqlTable("appointments", {
   phone: varchar("phone", { length: 50 }).notNull(),
   vehicle: varchar("vehicle", { length: 255 }).notNull(),
   service: varchar("service", { length: 255 }).notNull(),
+  employeeId: int("employee_id"),
   date: timestamp("date").notNull(),
   notes: text("notes"),
   status: varchar("status", { length: 50 }).notNull().default("pending"),

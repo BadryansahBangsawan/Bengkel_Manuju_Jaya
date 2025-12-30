@@ -10,6 +10,7 @@ type AppointmentStatus = "pending" | "confirmed" | "completed" | "cancelled";
 
 export default function AppointmentsAdmin() {
   const [appointments, setAppointments] = useState([]);
+  const [employees, setEmployees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchAppointments = async () => {
@@ -24,9 +25,26 @@ export default function AppointmentsAdmin() {
     }
   };
 
+  const fetchEmployees = async () => {
+    try {
+      const response = await fetch("/api/employees");
+      const data = await response.json();
+      setEmployees(data);
+    } catch (error) {
+      console.error("Failed to fetch employees:", error);
+    }
+  };
+
   useEffect(() => {
     fetchAppointments();
+    fetchEmployees();
   }, []);
+
+  const getEmployeeName = (employeeId: number | null) => {
+    if (!employeeId) return "Tidak ada";
+    const employee = employees.find((e) => e.id === employeeId);
+    return employee ? `${employee.name} - ${employee.position}` : "Tidak diketahui";
+  };
 
   const statusLabels = {
     pending: "Pending",
@@ -106,6 +124,7 @@ export default function AppointmentsAdmin() {
                     <p><strong>Telepon:</strong> {appointment.phone}</p>
                     <p><strong>Kendaraan:</strong> {appointment.vehicle}</p>
                     <p><strong>Layanan:</strong> {appointment.service}</p>
+                    <p><strong>Mekanik:</strong> {getEmployeeName(appointment.employeeId)}</p>
                     <p><strong>Tanggal:</strong> {new Date(appointment.date).toLocaleString("id-ID")}</p>
                     {appointment.notes && <p><strong>Catatan:</strong> {appointment.notes}</p>}
                   </div>

@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Calendar, CheckCircle } from "lucide-react";
+import { Loader2, Calendar, CheckCircle, User } from "lucide-react";
 import { toast } from "sonner";
 
 export default function AppointmentPage() {
@@ -15,11 +15,29 @@ export default function AppointmentPage() {
     phone: "",
     vehicle: "",
     service: "",
+    employeeId: "",
     date: "",
     notes: "",
   });
+  const [employees, setEmployees] = useState<any[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch("/api/employees");
+        const data = await response.json();
+        setEmployees(data);
+      } catch (error) {
+        console.error("Failed to fetch employees:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEmployees();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +48,14 @@ export default function AppointmentPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...formData,
-          date: new Date(formData.date).toISOString(),
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          vehicle: formData.vehicle,
+          service: formData.service,
+          employeeId: formData.employeeId ? parseInt(formData.employeeId) : null,
+          date: formData.date,
+          notes: formData.notes,
         }),
       });
 
@@ -44,6 +68,7 @@ export default function AppointmentPage() {
           phone: "",
           vehicle: "",
           service: "",
+          employeeId: "",
           date: "",
           notes: "",
         });
@@ -60,6 +85,14 @@ export default function AppointmentPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-muted/20 p-4">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
@@ -153,24 +186,42 @@ export default function AppointmentPage() {
                     />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="service">Layanan</Label>
-                  <select
-                    id="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border rounded-md bg-background"
-                    required
-                  >
-                    <option value="">Pilih Layanan</option>
-                    <option value="Servis Rutin">Servis Rutin</option>
-                    <option value="Ganti Oli">Ganti Oli</option>
-                    <option value="Servis AC">Servis AC</option>
-                    <option value="Kaki-kaki">Kaki-kaki</option>
-                    <option value="Sistem Rem">Sistem Rem</option>
-                    <option value="Diagnosa Sistem">Diagnosa Sistem</option>
-                    <option value="Lainnya">Lainnya</option>
-                  </select>
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="service">Layanan</Label>
+                    <select
+                      id="service"
+                      value={formData.service}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border rounded-md bg-background"
+                      required
+                    >
+                      <option value="">Pilih Layanan</option>
+                      <option value="Servis Rutin">Servis Rutin</option>
+                      <option value="Ganti Oli">Ganti Oli</option>
+                      <option value="Servis AC">Servis AC</option>
+                      <option value="Kaki-kaki">Kaki-kaki</option>
+                      <option value="Sistem Rem">Sistem Rem</option>
+                      <option value="Diagnosa Sistem">Diagnosa Sistem</option>
+                      <option value="Lainnya">Lainnya</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="employeeId">Pilih Mekanik (Opsional)</Label>
+                    <select
+                      id="employeeId"
+                      value={formData.employeeId}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 border rounded-md bg-background"
+                    >
+                      <option value="">-- Pilih mekanik --</option>
+                      {employees.map((employee) => (
+                        <option key={employee.id} value={employee.id.toString()}>
+                          {employee.name} - {employee.position}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="notes">Catatan Tambahan</Label>
@@ -196,6 +247,46 @@ export default function AppointmentPage() {
               </form>
             </CardContent>
           </Card>
+
+          {employees.length > 0 && (
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <User className="h-5 w-5" />
+                  Tim Kami
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {employees.slice(0, 4).map((employee) => (
+                    <div
+                      key={employee.id}
+                      className="flex items-center gap-4 p-3 border rounded-lg hover:bg-accent cursor-pointer transition-colors"
+                      onClick={() => setFormData({ ...formData, employeeId: employee.id.toString() })}
+                    >
+                      <div className="h-12 w-12 rounded-full overflow-hidden bg-muted">
+                        {employee.photo ? (
+                          <img
+                            src={employee.photo}
+                            alt={employee.name}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <User className="h-6 w-6 text-muted-foreground/50" />
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium">{employee.name}</p>
+                        <p className="text-sm text-muted-foreground">{employee.position}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>

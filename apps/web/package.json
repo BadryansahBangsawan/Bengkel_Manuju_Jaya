@@ -27,13 +27,15 @@
     "zod": "catalog:",
     "@my-better-t-app/env": "workspace:*",
     "@my-better-t-app/db": "workspace:*",
-    "drizzle-orm": "catalog:"
+    "drizzle-orm": "catalog:",
+    "bcryptjs": "^2.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^20",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@types/bcryptjs": "^2.4.6",
     "tailwindcss": "^4.1.10",
     "typescript": "catalog:",
     "@tanstack/react-query-devtools": "^5.91.1",

@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@my-better-t-app/db";
 import { contactMessages } from "@my-better-t-app/db/schema";
-import { desc } from "drizzle-orm";
+import { sql } from "drizzle-orm";
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const allMessages = await db.select().from(contactMessages).orderBy(desc(contactMessages.createdAt));
+    const allMessages = await db.select().from(contactMessages).orderBy(sql`contact_messages.created_at DESC`);
     return NextResponse.json(allMessages);
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch messages" }, { status: 500 });
