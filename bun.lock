@@ -21,6 +21,7 @@
       "version": "0.1.0",
       "dependencies": {
         "@base-ui/react": "^1.0.0",
+        "@my-better-t-app/db": "workspace:*",
         "@my-better-t-app/env": "workspace:*",
         "@tanstack/react-form": "^1.27.3",
         "@tanstack/react-query": "^5.90.12",
@@ -28,6 +29,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "dotenv": "catalog:",
+        "drizzle-orm": "catalog:",
         "lucide-react": "^0.546.0",
         "next": "^16.1.1",
         "next-themes": "^0.4.6",
@@ -87,6 +89,7 @@
   },
   "catalog": {
     "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.45.1",
     "typescript": "^5",
     "zod": "^4.1.13",
   },

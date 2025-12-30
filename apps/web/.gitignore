@@ -58,3 +58,7 @@ dev-dist
 .dev.vars*
 
 .open-next
+
+# Uploads
+/public/uploads/*
+!/public/uploads/.gitkeep

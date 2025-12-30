@@ -9,7 +9,7 @@ type ExternalLink = {
 };
 
 type InternalLink = {
-  to: "/" | "#layanan" | "#galeri" | "#kontak";
+  to: "/" | "/appointments" | "#layanan" | "#galeri" | "#kontak";
   label: string;
   external?: false;
 };
@@ -22,6 +22,7 @@ export default function Header() {
 
   const links: LinkItem[] = [
     { to: "/", label: "Beranda" },
+    { to: "/appointments", label: "Booking" },
     { to: "#layanan", label: "Layanan Bengkel" },
     { to: "https://qasir.biz/manujujaya", label: "Produk", external: true },
     { to: "#galeri", label: "Galeri Pekerjaan" },

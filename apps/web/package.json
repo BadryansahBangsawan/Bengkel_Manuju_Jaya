@@ -25,7 +25,9 @@
     "@tanstack/react-query": "^5.90.12",
     "dotenv": "catalog:",
     "zod": "catalog:",
-    "@my-better-t-app/env": "workspace:*"
+    "@my-better-t-app/env": "workspace:*",
+    "@my-better-t-app/db": "workspace:*",
+    "drizzle-orm": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.10",
